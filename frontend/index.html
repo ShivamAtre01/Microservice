@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Microservices Demo — User / Order / Payment / Notification</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Microservices Demo</h1>
+    <p>order-service &rarr; user-service &rarr; payment-service &rarr; notification-service</p>
+  </header>
+
+  <div id="health-bar" class="health-bar"></div>
+
+  <main>
+    <section class="card">
+      <h2>1. Users</h2>
+      <button id="refresh-users">Refresh users</button>
+      <table id="users-table">
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>2. Place an Order</h2>
+      <form id="order-form">
+        <label>User ID
+          <input type="text" id="order-user-id" placeholder="e.g. u1" required>
+        </label>
+        <label>Items (comma separated)
+          <input type="text" id="order-items" placeholder="laptop, mouse" required>
+        </label>
+        <label>Amount (₹)
+          <input type="number" id="order-amount" placeholder="55000" required>
+        </label>
+        <button type="submit">Place Order</button>
+      </form>
+      <pre id="order-result"></pre>
+    </section>
+
+    <section class="card">
+      <h2>3. Orders</h2>
+      <button id="refresh-orders">Refresh orders</button>
+      <table id="orders-table">
+        <thead><tr><th>ID</th><th>User</th><th>Amount</th><th>Status</th><th>Payment</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4. Notifications Sent</h2>
+      <button id="refresh-notifications">Refresh notifications</button>
+      <table id="notifications-table">
+        <thead><tr><th>To</th><th>Message</th><th>Channel</th><th>Time</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
