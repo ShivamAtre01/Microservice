@@ -2,7 +2,7 @@ pipeline {
     agent { label 'dev' }
 
     environment {
-        DOCKER_USER = 'top017'
+       DOCKERHUB_USER = 'top017'
     }
 
     stages {
@@ -40,6 +40,10 @@ pipeline {
             steps {
                 sh '''
                     docker compose build --no-cache
+                    docker tag microservice-user-service:latest ${DOCKERHUB_USER}/user-service:latest
+                    docker tag microservice-payment-service:latest ${DOCKERHUB_USER}/payment-service:latest
+                    docker tag microservice-notification-service:latest ${DOCKERHUB_USER}/notification-service:latest
+                    docker tag microservice-order-service:latest ${DOCKERHUB_USER}/order-service:latest
                 '''
             }
         }
@@ -47,10 +51,10 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 sh '''
-                    trivy image ${DOCKERHUB_USER}/user-service:latest || true
-                    trivy image ${DOCKERHUB_USER}/payment-service:latest || true
-                    trivy image ${DOCKERHUB_USER}/notification-service:latest || true
-                    trivy image ${DOCKERHUB_USER}/order-service:latest || true
+                    trivy image --severity HIGH,CRITICAL --exit-code 1 ${DOCKERHUB_USER}/user-service:latest
+                    trivy image --severity HIGH,CRITICAL --exit-code 1 ${DOCKERHUB_USER}/payment-service:latest
+                    trivy image --severity HIGH,CRITICAL --exit-code 1 ${DOCKERHUB_USER}/notification-service:latest
+                    trivy image --severity HIGH,CRITICAL --exit-code 1 ${DOCKERHUB_USER}/order-service:latest
                 '''
             }
         }
@@ -69,10 +73,10 @@ pipeline {
                             -u "$DOCKER_USER" \
                             --password-stdin
 
-                        docker push ${DOCKER_USER}/user-service:latest
-                        docker push ${DOCKER_USER}/payment-service:latest
-                        docker push ${DOCKER_USER}/notification-service:latest
-                        docker push ${DOCKER_USER}/order-service:latest
+                        docker push ${DOCKERHUB_USER}/user-service:latest
+                        docker push ${DOCKERHUB_USER}/payment-service:latest
+                        docker push ${DOCKERHUB_USER}/notification-service:latest
+                        docker push ${DOCKERHUB_USER}/order-service:latest
 
                         docker logout
                     '''
