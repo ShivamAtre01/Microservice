@@ -2,7 +2,7 @@ pipeline {
     agent { label 'dev' }
 
     environment {
-        DOCKERHUB_USER = 'top017'
+        DOCKER_USER = 'top017'
     }
 
     stages {
