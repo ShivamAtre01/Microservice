@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - order-service
+    networks:
+      - microservices-net
   user-service:
     build: ./user-service
     container_name: user-service
